@@ -1,0 +1,18 @@
+jobs:
+  db-connect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PostgreSQL Client
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Connect to Omnibase DB and Run Query
+        env:
+          DB_HOST: ghrunr-teghprodne01-2-omb-higher-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
+          DB_PORT: 6882
+          DB_NAME: scale2024cloud
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+        run: |
+          PGPASSWORD=$DB_PASS psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME -c "SELECT NOW();"
+
+---
