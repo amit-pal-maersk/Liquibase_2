@@ -27,5 +27,6 @@ jobs:
             -p "${DB_PORT}" \
             -U "${DB_USER}" \
             -d "${DB_NAME}" \
+            sslmode=require" \ 
             -c "SELECT NOW();"
 
