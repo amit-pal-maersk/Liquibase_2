@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PostgreSQL Client
-        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+        run: sudo yum install -y postgresql-client
 
       - name: Test DB Connectivity with psql
         env:
