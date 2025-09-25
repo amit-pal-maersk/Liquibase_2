@@ -4,23 +4,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  db-connect:
+  runner-info:
     runs-on: ubuntu-latest
     steps:
-      - name: Install PostgreSQL Client
-        run: sudo apt-get update && sudo apt-get install -y postgresql-client
-
-      - name: Connect to Omnibase DB and Run Query
-        env:
-          DB_HOST: ghrunr-teghprodne01-2-omb-lower-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
-          DB_PORT: 6882
-          DB_NAME: scale2024cloud
-          DB_USER: pgbigboss
-          DB_PASS: 3jCQm9jaHNd6jPvVFa
+      - name: Show runner info
         run: |
-          PGPASSWORD="${DB_PASS}" psql \
-            -h "${DB_HOST}" \
-            -p "${DB_PORT}" \
-            -U "${DB_USER}" \
-            -d "${DB_NAME}" \
-            -c "SELECT NOW();"
+          echo "Runner name: $RUNNER_NAME"
+          echo "OS: $RUNNER_OS"
+          echo "Arch: $RUNNER_ARCH"
+          echo "Job: $GITHUB_JOB"
+          echo "Workflow: $GITHUB_WORKFLOW"
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Actor: $GITHUB_ACTOR"
+
+          echo "=== System Info ==="
+          uname -a
+
+          echo "=== Network Interfaces ==="
+          ip a || ifconfig
+
+          echo "=== DNS Resolution Test ==="
+          nslookup $DB_HOST || dig $DB_HOST || true
+
