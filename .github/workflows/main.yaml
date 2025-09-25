@@ -4,23 +4,50 @@ on:
   workflow_dispatch:
 
 jobs:
-  db-connect:
+  db-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Install PostgreSQL Client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
-      - name: Connect to Omnibase DB and Run Query
+      - name: Install Liquibase
+        run: |
+          curl -sL https://github.com/liquibase/liquibase/releases/download/v4.31.2/liquibase-4.31.2.tar.gz -o liquibase.tar.gz
+          sudo mkdir -p /opt/liquibase
+          sudo tar -xvzf liquibase.tar.gz -C /opt/liquibase
+          sudo ln -s /opt/liquibase/liquibase /usr/local/bin/liquibase
+          liquibase --version
+
+      - name: Test DB Connectivity with psql
         env:
           DB_HOST: ghrunr-teghprodne01-2-omb-lower-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
           DB_PORT: 6882
           DB_NAME: scale2024cloud
-          DB_USER: pgbigboss
-          DB_PASS: 3jCQm9jaHNd6jPvVFa
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
         run: |
+          echo "Checking DB connectivity..."
           PGPASSWORD="${DB_PASS}" psql \
             -h "${DB_HOST}" \
             -p "${DB_PORT}" \
             -U "${DB_USER}" \
             -d "${DB_NAME}" \
             -c "SELECT NOW();"
+
+      - name: Run Liquibase Update
+        env:
+          DB_HOST: ghrunr-teghprodne01-2-omb-lower-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
+          DB_PORT: 6882
+          DB_NAME: scale2024cloud
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+        run: |
+          liquibase \
+            --url="jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}" \
+            --username="${DB_USER}" \
+            --password="${DB_PASS}" \
+            --changeLogFile=changelog.xml \
+            update
