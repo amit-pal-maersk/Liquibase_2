@@ -2,7 +2,6 @@ name: Liquibase Deploy
 
 on:
   workflow_dispatch:
-
 jobs:
   db-deploy:
     runs-on: self-hosted
@@ -15,8 +14,8 @@ jobs:
 
       - name: Test DB Connectivity with psql
         env:
-          DB_HOST: 10.11.0.4
-          DB_PORT: 5403
+          DB_HOST: ghrunr-teghprodne01-2-omb-lower-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
+          DB_PORT: 6882
           DB_NAME: postgres
           DB_USER: pgbigboss
           DB_PASS: 3jCQm9jaHNd6jPvVFa
