@@ -13,7 +13,7 @@ jobs:
       - name: Connect to Omnibase DB and Run Query
         env:
           DB_HOST: ghrunr-teghprodne01-2-omb-lower-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
-          DB_PORT: "6882"
+          DB_PORT: 6882
           DB_NAME: scale2024cloud
           DB_USER: pgbigboss
           DB_PASS: 3jCQm9jaHNd6jPvVFa
