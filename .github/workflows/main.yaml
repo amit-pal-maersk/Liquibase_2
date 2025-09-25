@@ -1,3 +1,8 @@
+name: Liquibase Deploy
+
+on:
+  workflow_dispatch:
+
 jobs:
   db-connect:
     runs-on: ubuntu-latest
