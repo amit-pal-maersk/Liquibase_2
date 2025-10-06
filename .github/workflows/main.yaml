@@ -3,11 +3,18 @@ name: Liquibase Deploy
 on:
   workflow_dispatch:
 jobs:
-  db-deploy:
-    runs-on: self-hosted
+  migrate-build-deploy:
+    name: Run Migrations & Publish
+    runs-on: ${{ vars.SH_UBUNTU_LATEST }}
+    environment: dev
+    env:
+      CONFIGURATION: Release
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: 1
+      IMAGE_TAG: dev-${{ github.sha }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout
+      uses: actions/checkout@v4
 
       - name: Install PostgreSQL Client
         run: |
