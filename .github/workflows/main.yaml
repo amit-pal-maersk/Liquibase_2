@@ -1,11 +1,21 @@
 name: Liquibase Deploy
+
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
+concurrency:
+  group: liquibase-deploy-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   migrate-build-deploy:
     name: Run Migrations & Publish
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.SH_UBUNTU_LATEST }}
     environment: dev
     env:
       CONFIGURATION: Release
@@ -24,7 +34,7 @@ jobs:
 
       - name: Test DB Connectivity with psql
         env:
-          DB_HOST: 10.0.8.4
+          DB_HOST: ghrunr-teghprodne01-2-omb-lower-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
           DB_PORT: 3126
           DB_NAME: perdiemdevdb
           DB_USER: bharathan
