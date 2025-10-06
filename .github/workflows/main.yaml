@@ -9,7 +9,7 @@ permissions:
   packages: write
 
 concurrency:
-  group: liquibase-deploy-${{ github.ref }}
+  group: deploy-dev-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
