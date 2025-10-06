@@ -29,7 +29,7 @@ jobs:
 
       - name: Install PostgreSQL Client
         run: |
-          sudo apt-get update
+          sudo apt-get update -y
           sudo apt-get install -y postgresql-client
 
       - name: Test DB Connectivity with psql
@@ -41,4 +41,5 @@ jobs:
           DB_PASS: O2OfGoze3P4L5QMB
         run: |
           echo "Checking DB connectivity..."
-          PGPASSWORD="${DB_PASS}" psql "host=${DB_HOST} port=${DB_PORT} dbname=${DB_NAME} user=${DB_USER} sslmode=require" -c "SELECT NOW();"
+          export PGPASSWORD="${DB_PASS}"
+          psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d "${DB_NAME}" --set=sslmode=require -c "SELECT NOW();"
