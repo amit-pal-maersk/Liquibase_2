@@ -24,7 +24,7 @@ jobs:
 
       - name: Test DB Connectivity with psql
         env:
-          DB_HOST: ghrunr-teghprodne01-2-omb-lower-pe.te-gh-prod-northeurope-01-privatelink.maersk.io
+          DB_HOST: 10.0.8.4
           DB_PORT: 3126
           DB_NAME: perdiemdevdb
           DB_USER: bharathan
