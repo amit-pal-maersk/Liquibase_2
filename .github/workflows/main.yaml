@@ -6,7 +6,7 @@ on:
 jobs:
   migrate-build-deploy:
     name: Run Migrations & Publish
-    runs-on: ${{ vars.SH_UBUNTU_LATEST }}
+    runs-on: ubuntu-latest
     environment: dev
     env:
       CONFIGURATION: Release
