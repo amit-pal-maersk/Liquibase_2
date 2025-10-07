@@ -3,26 +3,10 @@ name: Liquibase Deploy
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  id-token: write
-  packages: write
-
-concurrency:
-  group: deploy-dev-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   migrate-build-deploy:
     name: Run Migrations & Publish
     runs-on: ${{ vars.SH_UBUNTU_LATEST }}
-    environment: dev
-    env:
-      CONFIGURATION: Release
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-      DOTNET_NOLOGO: 1
-      IMAGE_TAG: dev-${{ github.sha }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
