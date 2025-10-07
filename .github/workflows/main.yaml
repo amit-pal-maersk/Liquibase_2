@@ -6,7 +6,7 @@ on:
 jobs:
   migrate-build-deploy:
     name: Run Migrations & Publish
-    runs-on: self-hosted
+    runs-on: self-hosted   # runs on your private GitHub Actions runner
 
     steps:
       - name: Checkout repository
