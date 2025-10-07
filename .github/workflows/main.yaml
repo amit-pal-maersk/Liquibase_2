@@ -7,8 +7,9 @@ jobs:
   migrate-build-deploy:
     name: Run Migrations & Publish
     runs-on: ${{ vars.SH_UBUNTU_LATEST }}
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install PostgreSQL Client
@@ -26,4 +27,4 @@ jobs:
         run: |
           echo "Checking DB connectivity..."
           export PGPASSWORD="${DB_PASS}"
-          psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d "${DB_NAME}" --set=sslmode=require -c "SELECT NOW();"
+          psql "host=${DB_HOST} port=${DB_PORT} user=${DB_USER} dbname=${DB_NAME} sslmode=require" -c "SELECT NOW();"
